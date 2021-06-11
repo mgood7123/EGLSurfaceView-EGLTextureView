@@ -12,7 +12,9 @@ EGLSurfaceView and EGLTextureView provides dedicated callbacks for EGL context c
 
 EGLSurfaceView and EGLTextureView also syncs its drawing with Choreographer that is provided for each View
 
-This ensures that the view does not overdraw and swap the buffers faster than it should, ensuring smooth rendering, otherwise it would appear glitchy with `random rendering speed boosts` that go beyond 60FPS and then drop to 60FPS
+This ensures that the view does not overdraw, ensuring smooth rendering
+
+Overdraw means that the buffers are being swapped faster than they are supposed to (no more than once per vsync) resulting in glitches with `random rendering speed boosts` that go beyond 60FPS and then drop to 60FPS
 
 the magic is as follows
 
