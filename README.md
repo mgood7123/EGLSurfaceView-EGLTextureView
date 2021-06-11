@@ -1,11 +1,16 @@
-# EGLTextureView
+# EGLSurfaceView and EGLTextureView
 A modified version of GLTextureView designed specifically for use with EGL
+
+```Java
+class EGLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
+class EGLTextureView extends TextureView implements TextureView.SurfaceTextureListener
+```
 
 ## Unlike TextureView and GLSurfaceView
 
-EGLTextureView provides dedicated callbacks for EGL context creation and destruction. These dedicated callbacks are required by some rendering api's that need to attach and detach from the EGL context, such as Magnum
+EGLSurfaceView and EGLTextureView provides dedicated callbacks for EGL context creation and destruction. These dedicated callbacks are required by some rendering api's that need to attach and detach from the EGL context, such as Magnum
 
-EGLTextureView also syncs its drawing with Choreographer that is provided for each View
+EGLSurfaceView and EGLTextureView also syncs its drawing with Choreographer that is provided for each View
 
 This ensures that the view does not overdraw and swap the buffers faster than it should, ensuring smooth rendering, otherwise it would appear glitchy with `random rendering speed boosts` that go beyond 60FPS and then drop to 60FPS
 
@@ -84,7 +89,7 @@ class GLThread extends Thread {
 // ...
 ```
 
-provides the same API as GLSurfaceView with the following changes
+both EGLSurfaceView and EGLTextureView provide the same API as GLSurfaceView with the following changes
 
 Methods added | Methods depreciated | Methods changed | Information
 -|-|-|-
@@ -95,7 +100,7 @@ swapBuffers||| Requests that the render thread swaps its buffers. The buffers wi
 ||setRenderMode|| This has no effect on rendering, provided only for compatibility
 ||getRenderMode|| This has no effect on rendering, provided only for compatibility
 
-provides the same API as GLSurfaceView.Renderer with the following changes
+both EGLSurfaceView.Renderer and EGLTextureView.Renderer provide the same API as GLSurfaceView.Renderer with the following changes
 
 Methods added | Methods depreciated | Methods changed | Information
 -|-|-|-
