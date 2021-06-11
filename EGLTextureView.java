@@ -296,7 +296,8 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
     /**
      * Requests that the render thread swaps its buffers
      * <br><br>
-     * The buffers will be swapped AFTER the next draw has completed
+     * The buffers will be swapped either when the current draw completes,
+     * or when the next draw completes
      * <br><br>
      * Subsequent calls in the same frame has no effect
      * <br><br>
@@ -808,28 +809,24 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
         swapBuffers();
     }
 
-    /**
-     * use {@link #setRenderer} instead
-     */
-    @Deprecated
     @Override
-    public void setSurfaceTextureListener(SurfaceTextureListener listener) {
+    final public void setSurfaceTextureListener(SurfaceTextureListener listener) {
         Log.e(TAG, "setSurfaceTextureListener preserved, setRenderer() instead?");
     }
 
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+    final public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         mGLThread.surfaceCreated();
         onSurfaceTextureSizeChanged(surface, width, height);
     }
 
     @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+    final public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
         mGLThread.onWindowResize(width, height);
     }
 
     @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+    final public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
         // Surface will be destroyed when we return
         mGLThread.surfaceDestroyed();
         if(null != mRenderer) {
@@ -839,7 +836,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
     }
 
     @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+    final public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
 
@@ -849,6 +846,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
      * pause the rendering thread.
      * Must not be called before a renderer has been set.
      */
+    @CallSuper
     public void onPause() {
         mGLThread.onPause();
     }
@@ -860,6 +858,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
      * thread.
      * Must not be called before a renderer has been set.
      */
+    @CallSuper
     public void onResume() {
         mGLThread.onResume();
     }
@@ -870,6 +869,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
      * Must not be called before a renderer has been set.
      * @param r the runnable to be run on the GL rendering thread.
      */
+    @CallSuper
     public void queueEvent(Runnable r) {
         mGLThread.queueEvent(r);
     }
@@ -879,6 +879,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
      * called or subclassed by clients of EGLTextureView.
      */
     @Override
+    @CallSuper
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (LOG_ATTACH_DETACH) {
@@ -892,6 +893,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
     }
 
     @Override
+    @CallSuper
     protected void onDetachedFromWindow() {
         if (LOG_ATTACH_DETACH) {
             Log.d(TAG, "onDetachedFromWindow");
@@ -996,7 +998,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
          * @param config the EGLConfig of the created surface. Can be used
          * to create matching pbuffers.
          */
-        default void onSurfaceCreated(GL10 gl, EGLConfig config) {};
+        default void onSurfaceCreated(GL10 gl, EGLConfig config) {}
 
         /**
          * Called when the surface changed size.
@@ -1018,8 +1020,8 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
          * </pre>
          * @param gl the GL interface. Use <code>instanceof</code> to
          * test if the interface supports GL11 or higher interfaces.
-         * @param width
-         * @param height
+         * @param width surface width
+         * @param height surface height
          */
         void onSurfaceChanged(GL10 gl, int width, int height);
 
@@ -1044,7 +1046,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
          */
         void onDrawFrame(GL10 gl);
 
-        default void onSurfaceDestroyed() {} // do nothing
+        default void onSurfaceDestroyed() {}
 
         /**
          * Called when the EGL context is made current
@@ -2144,7 +2146,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
     }
 
 
-    private void checkRenderThreadState() {
+    private final void checkRenderThreadState() {
         if (mGLThread != null) {
             throw new IllegalStateException(
                     "setRenderer has already been called for this instance.");
