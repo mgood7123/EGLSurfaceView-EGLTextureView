@@ -6,6 +6,14 @@ class EGLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 class EGLTextureView extends TextureView implements TextureView.SurfaceTextureListener
 ```
 
+## Docs
+
+SurfaceView and GLSurfaceView https://source.android.com/devices/graphics/arch-sv-glsv
+
+SurfaceTexture https://source.android.com/devices/graphics/arch-st
+
+TextureView https://source.android.com/devices/graphics/arch-tv
+
 ## Unlike TextureView and GLSurfaceView
 
 EGLSurfaceView and EGLTextureView provides dedicated callbacks for EGL context creation and destruction. These dedicated callbacks are required by some rendering api's that need to attach and detach from the EGL context, such as Magnum
