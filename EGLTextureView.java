@@ -486,7 +486,6 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
     protected final void swapBuffers() {
         synchronized (VSYNC_LOCK) {
             if (!shouldSwap) {
-                Log.d(TAG, "swapBuffers: requested swap");
                 shouldSwap = true;
             }
         }
@@ -1881,7 +1880,6 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
                                 view.mRenderer.onDrawFrame(gl);
                             }
                             if (shouldSwap) {
-                                Log.d(TAG, "guardedRun: swapping");
                                 int swapError = mEglHelper.swap();
                                 shouldSwap = false;
                                 switch (swapError) {
