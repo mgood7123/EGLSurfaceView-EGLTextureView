@@ -237,6 +237,7 @@ public class EGLTextureView extends TextureView implements TextureView.SurfaceTe
     }
 
     @Override
+    @CallSuper
     protected void finalize() throws Throwable {
         try {
             if (mGLThread != null) {
