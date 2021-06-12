@@ -106,7 +106,7 @@ Methods added | Methods depreciated | Methods changed | Information
 getJavaNameForJNI||| For use with JNI
 getJavaSignatureForJNI||| For use with JNI
 swapBuffers||| Requests that the render thread swaps its buffers. The buffers will be swapped either when the current draw completes, or when the next draw completes. This may be called from any thread
-|||requestRender| calls SwapBuffers()
+|||requestRender| calls swapBuffers()
 ||setRenderMode|| This has no effect on rendering, provided only for compatibility
 ||getRenderMode|| This has no effect on rendering, provided only for compatibility
 
