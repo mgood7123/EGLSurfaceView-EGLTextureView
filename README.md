@@ -3,6 +3,8 @@ A modified version of GLTextureView designed specifically for use with EGL
 
 ```Java
 class EGLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
+```
+```Java
 class EGLTextureView extends TextureView implements TextureView.SurfaceTextureListener
 ```
 
