@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smallville7123.crafter.egl;
+package smallville7123.EGLSurfaceView_EGLTextureView;
 
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
